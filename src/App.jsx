@@ -85,7 +85,8 @@ function Shell() {
       </Suspense>
       <div className="grain" aria-hidden="true" />
       <Cursor />
-      <LightSweep enabled={ready && isHome && !lite} />
+      {/* section sweeps are off — they flashed while scrolling; the component still runs page/theme wipes */}
+      <LightSweep enabled={false} />
       <Header ready={ready} />
       {isHome && !lite && <ScrollNav ready={ready} />}
       <Routes location={shown}>

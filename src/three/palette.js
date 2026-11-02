@@ -10,6 +10,18 @@ export const PALETTE = {
   amber: '#F2BE77',
 }
 
+/** Light theme: the same logo blues on a cool paper background; amber deepened to read on white. */
+export const PALETTE_LIGHT = {
+  bg: '#F2F5FA',
+  deep: '#0B4FA0',
+  blue: '#1C77BE',
+  cyan: '#12A9CC',
+  cyanLt: '#12A9CC',
+  amber: '#D08A2E',
+}
+
+export const paletteFor = (theme) => (theme === 'light' ? PALETTE_LIGHT : PALETTE)
+
 export const paletteUniforms = () => ({
   uDeep: { value: new Color(PALETTE.deep) },
   uBlue: { value: new Color(PALETTE.blue) },

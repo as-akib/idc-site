@@ -119,7 +119,7 @@ const fragmentShader = /* glsl */ `
     // slow, gentle packets of light travelling along the ribbon
     float ph = fract(vT * 1.5 - uTime * 0.05 * uFlow + uSeed);
     float pulse = pow(smoothstep(0.0, 0.5, ph) * smoothstep(1.0, 0.5, ph), 6.0);
-    col = mix(col, mix(uCyan, uAmber, uAmberMix), pulse * 0.35);
+    col = mix(col, mix(uCyan, uAmber, uAmberMix), pulse * 0.2);
     float d = distance(cameraPosition, vWorld);
     float fade = smoothstep(1.5, 5.0, d) * (1.0 - smoothstep(40.0, 70.0, d));
     float alpha = (0.18 + fres * 0.32 + pulse * 0.12) * uIntensity * fade * (0.4 + 0.6 * vEdge);

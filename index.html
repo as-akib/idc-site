@@ -7,6 +7,16 @@
     <meta name="theme-color" content="#070C15" />
     <meta name="description" content="IDC — Impressive Digital Communication. Digital Marketing | Web Development | IT Solutions. Where trust is in our hand." />
     <title>IDC — Impressive Digital Communication</title>
+    <script>
+      // apply the saved (or system) theme before first paint, so there is no flash
+      try {
+        var t = localStorage.getItem('idc-theme')
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        document.documentElement.dataset.theme = t
+      } catch (e) {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

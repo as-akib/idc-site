@@ -6,10 +6,12 @@ import { CameraRig, LiteRig } from './CameraRig'
 import Ribbons from './Ribbons'
 import Dust from './Dust'
 import Effects from './Effects'
-import { PALETTE } from './palette'
+import { paletteFor } from './palette'
+import { useTheme } from '../lib/theme'
 
 export default function Experience({ lite }) {
   const [degraded, setDegraded] = useState(false)
+  const theme = useTheme()
   return (
     <div className="webgl" aria-hidden="true">
       <Canvas
@@ -17,14 +19,15 @@ export default function Experience({ lite }) {
         gl={{ antialias: lite, alpha: false, powerPreference: 'high-performance', stencil: false }}
         camera={{ fov: 45, near: 0.1, far: 160, position: [0, 0, 18] }}
       >
-        <color attach="background" args={[PALETTE.bg]} />
+        <color attach="background" args={[paletteFor(theme).bg]} key={theme} />
         <Driver />
         {!lite && <PerformanceMonitor onDecline={() => setDegraded(true)} />}
         <Suspense fallback={null}>
           {lite ? <LiteRig /> : <CameraRig />}
-          <Ribbons count={lite ? 5 : 10} lite={lite} />
-          <Dust count={lite ? 160 : degraded ? 500 : 900} lite={lite} />
-          {!lite && <Effects />}
+          <Ribbons count={lite ? 5 : 10} lite={lite} theme={theme} />
+          <Dust count={lite ? 160 : degraded ? 500 : 900} lite={lite} theme={theme} />
+          {/* bloom would wash out a light background */}
+          {!lite && theme === 'dark' && <Effects />}
         </Suspense>
       </Canvas>
     </div>

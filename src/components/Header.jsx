@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { lenis, onScene, scrollToId } from '../lib/scroll'
 import { FlowButton } from '../lib/ui'
+import ThemeToggle from './ThemeToggle'
 import { brand, contact } from '../data/content'
 
 // section links scroll to their home section; "Techno Guard" is a separate page (IDC's offline service)
@@ -65,9 +66,12 @@ export default function Header({ ready }) {
           )
         )}
       </nav>
-      <FlowButton warm href={`mailto:${contact.email}`} className="fbtn--sm header__quote">
-        Request a quote
-      </FlowButton>
+      <div className="header__end">
+        <ThemeToggle />
+        <FlowButton warm href={`mailto:${contact.email}`} className="fbtn--sm header__quote">
+          Request a quote
+        </FlowButton>
+      </div>
       <button
         type="button"
         className={`header__menu ${open ? 'is-open' : ''}`}

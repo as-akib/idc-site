@@ -1,17 +1,18 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { PlaneGeometry } from 'three'
 import { createRibbonMaterial, randomArc } from './ribbonMaterial'
 import { mulberry32, STATIONS } from './formations'
 import { clamp, easeInOut, phase, world } from './world'
 import { scene } from '../lib/scroll'
+import { paletteFor } from './palette'
 
 const LAST = STATIONS.length - 1
 // per-station brightness: quieter where the DOM carries dense text
 const DIM = [2, 1, 1.25, 1, 0.85, 1.25, 1.1, 1.05]
 
 /** Flowing ribbons of liquid light. They reform per section as the camera travels. */
-export default function Ribbons({ count, lite }) {
+export default function Ribbons({ count, lite, theme = 'dark' }) {
   const group = useRef()
   const ribbons = useMemo(() => {
     const r = mulberry32(11)
@@ -35,6 +36,19 @@ export default function Ribbons({ count, lite }) {
     })
   }, [count, lite])
 
+  // recolour for the active theme; light mode needs a bit more presence on a pale background
+  useEffect(() => {
+    const p = paletteFor(theme)
+    for (const rb of ribbons) {
+      const u = rb.material.uniforms
+      u.uDeep.value.set(p.deep)
+      u.uBlue.value.set(p.blue)
+      u.uCyan.value.set(p.cyanLt)
+      u.uAmber.value.set(p.amber)
+    }
+  }, [theme, ribbons])
+  const themeBoost = theme === 'light' ? 1.3 : 1
+
   useFrame((state) => {
     const t = state.clock.elapsedTime
     const { k, trans } = phase(lite ? 0 : world.u, LAST)
@@ -44,8 +58,9 @@ export default function Ribbons({ count, lite }) {
       u.uTime.value = t * 0.6
       u.uK.value = k
       u.uMorph.value = lite ? 0 : easeInOut(clamp((trans - rb.delay) / 0.65))
-      u.uFlow.value = 1 + Math.min(Math.abs(world.vel) / 60, 1)
-      u.uIntensity.value = rb.base * dim
+      // constant flow: tying it to scroll speed made the ribbons flicker while scrolling
+      u.uFlow.value = 1
+      u.uIntensity.value = rb.base * dim * themeBoost
     }
     if (lite && group.current) {
       // mobile: layered parallax — the orbit cluster turns and drifts with scroll
