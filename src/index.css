@@ -1239,11 +1239,11 @@ html:not(.has-cursor) .cursor {
   z-index: 1;
   margin-top: -9%;
 }
-/* minimal, premium numerals: the brand display face at its lightest weight */
+/* the numerals use the body text face (General Sans) at a light weight */
 .about__num {
   display: block;
-  font-family: var(--display);
-  font-weight: 200;
+  font-family: var(--body);
+  font-weight: 300;
   font-size: min(24vw, 44vh, 320px);
   /* a full 1em line box so the liquid fill (background) covers the whole glyph height */
   line-height: 1;
