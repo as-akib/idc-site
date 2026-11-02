@@ -14,16 +14,22 @@ export default function About() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // manifesto: the "17" fills with liquid light while the statement lights up
+      // manifesto: the number counts up on arrival, then fills with liquid light as you scroll
       const level = (v) => gsap.set('.about__num--fill', { '--lvl': `${v}%` })
+      const nums = gsap.utils.toArray('.about__num')
+      const count = { v: 0 }
+      const countTo = (v) => nums.forEach((n) => (n.textContent = String(Math.round(v)).padStart(2, '0')))
+      countTo(0)
+      gsap
+        .timeline({ defaults: { ease: 'expo.out' }, scrollTrigger: { trigger: '.about__pin', start: lite ? 'top 80%' : 'top 70%' } })
+        .from('.about__lens', { scale: 0.6, opacity: 0, duration: 1.4 })
+        .from('.about__ring', { rotate: -90, opacity: 0, duration: 1.6 }, 0)
+        .from('.about__nums', { y: 40, opacity: 0, duration: 1.1 }, 0.15)
+        .to(count, { v: about.years, duration: 1.4, ease: 'power2.out', onUpdate: () => countTo(count.v) }, 0.25)
+        .from('.about__left > *', { y: 30, opacity: 0, stagger: 0.1, duration: 0.9 }, 0.1)
+        .fromTo('.about__statement .c', { opacity: 0.15 }, { opacity: 1, stagger: 0.07, duration: 0.6, ease: 'power1.out' }, 0.3)
+        .from('.about__label', { opacity: 0, y: 16, duration: 0.8 }, 0.7)
       if (!lite) {
-        // entrance on arrival; the liquid fill is the only scroll-scrubbed part
-        gsap
-          .timeline({ defaults: { ease: 'expo.out' }, scrollTrigger: { trigger: '.about__pin', start: 'top 70%' } })
-          .from('.about__nums', { scale: 0.8, opacity: 0, duration: 1.2 })
-          .from('.about__left > *', { y: 30, opacity: 0, stagger: 0.1, duration: 0.9 }, 0.1)
-          .fromTo('.about__statement .c', { opacity: 0.15 }, { opacity: 1, stagger: 0.07, duration: 0.6, ease: 'power1.out' }, 0.3)
-          .from('.about__label', { opacity: 0, y: 16, duration: 0.8 }, 0.6)
         const o = { v: 0 }
         gsap.to(o, {
           v: 100,
@@ -33,7 +39,6 @@ export default function About() {
         })
       } else {
         level(100)
-        gsap.from('.about__statement .c', { opacity: 0.15, stagger: 0.06, duration: 0.6, scrollTrigger: { trigger: '.about__statement', start: 'top 88%' } })
       }
 
       gsap.utils.toArray('.reveal').forEach((el) =>
@@ -73,14 +78,26 @@ export default function About() {
             <span className="eyebrow">( 03 ) — About IDC</span>
             <Split as="p" className="about__statement" text={`Years of experience ${about.statement.replace('years of experience ', '')}`} />
           </div>
-          <div className="about__nums" aria-label={`${about.years} years`}>
-            <span className="about__num about__num--line" aria-hidden="true">
-              {about.years}
-            </span>
-            <span className="about__num about__num--fill" aria-hidden="true">
-              {about.years}
-            </span>
-            <span className="about__label">Years — and counting</span>
+          <div className="about__badge">
+            <div className="about__lens" aria-hidden="true" />
+            <svg className="about__ring" viewBox="0 0 600 600" aria-hidden="true">
+              <defs>
+                <path id="aboutRingPath" d="M300,300 m-262,0 a262,262 0 1,1 524,0 a262,262 0 1,1 -524,0" />
+              </defs>
+              <circle cx="300" cy="300" r="286" className="about__ringline" />
+              <text>
+                <textPath href="#aboutRingPath" textLength="1640" lengthAdjust="spacing">{`Years of experience • Helping people for best solutions • Years of experience • Helping people for best solutions • `}</textPath>
+              </text>
+            </svg>
+            <div className="about__nums" aria-label={`${String(about.years).padStart(2, '0')} years of experience`}>
+              <span className="about__num about__num--line" aria-hidden="true">
+                {String(about.years).padStart(2, '0')}
+              </span>
+              <span className="about__num about__num--fill" aria-hidden="true">
+                {String(about.years).padStart(2, '0')}
+              </span>
+            </div>
+            <span className="about__label">Years of experience</span>
           </div>
         </div>
       </div>

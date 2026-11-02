@@ -1187,42 +1187,104 @@ html:not(.has-cursor) .cursor {
   line-height: 1.02;
   letter-spacing: -0.03em;
 }
+.about__badge {
+  position: relative;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: min(40vw, 72vh, 560px);
+  aspect-ratio: 1;
+}
+/* frosted glass disc: blurs the ribbons behind it so the number always reads clearly */
+.about__lens {
+  position: absolute;
+  inset: 9%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, rgba(var(--panel-hi-rgb), 0.75), rgba(var(--panel-rgb), 0.55) 70%);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  box-shadow: inset 0 0 0 1px rgba(var(--edge-rgb), 0.2), inset 0 0 80px rgba(var(--glow-rgb), 0.12), 0 40px 120px -40px rgba(11, 79, 160, 0.55);
+}
+.about__lens::after {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--glow-rgb), 0.25);
+}
+.about__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: spin 40s linear infinite;
+}
+.about__ring text {
+  fill: var(--ink-dim);
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 5.4px;
+  text-transform: uppercase;
+}
+.about__ringline {
+  fill: none;
+  stroke: rgba(var(--amber-rgb), 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 1 7;
+}
 .about__nums {
   position: relative;
-  justify-self: end;
+  z-index: 1;
+  margin-top: -9%;
 }
+/* the number is set in an editorial italic serif, a deliberate contrast to the geometric display face */
 .about__num {
   display: block;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: min(30vw, 60vh);
+  font-family: 'Instrument Serif', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: min(25vw, 46vh, 330px);
   /* a full 1em line box so the liquid fill (background) covers the whole glyph height */
   line-height: 1;
-  margin: -0.1em 0;
-  padding-right: 0.08em;
-  letter-spacing: -0.07em;
+  letter-spacing: -0.04em;
+  padding: 0 0.12em 0 0.04em;
+  font-variant-numeric: lining-nums;
 }
 .about__num--line {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(var(--glow-rgb), 0.35);
+  -webkit-text-stroke: 1.5px rgba(var(--glow-rgb), 0.5);
 }
 .about__num--fill {
   position: absolute;
   top: 0;
   left: 0;
   color: transparent;
-  background: linear-gradient(to top, var(--deep), var(--blue) 45%, var(--cyan-lt)) no-repeat bottom / 100% var(--lvl, 0%);
+  background: linear-gradient(to top, var(--deep), var(--blue) 40%, var(--cyan-lt) 85%, #d8f7fa) no-repeat bottom / 100% var(--lvl, 0%);
   -webkit-background-clip: text;
   background-clip: text;
-  filter: drop-shadow(0 0 34px rgba(18, 169, 204, 0.35));
+  filter: drop-shadow(0 0 30px rgba(18, 169, 204, 0.35));
+}
+:root[data-theme='light'] .about__num--fill {
+  background-image: linear-gradient(to top, #08356f, var(--deep) 40%, var(--blue) 75%, var(--cyan-lt));
+  filter: drop-shadow(0 10px 30px rgba(11, 79, 160, 0.25));
 }
 .about__label {
-  display: block;
-  margin-top: 1.6rem;
-  text-align: right;
-  font-size: 0.78rem;
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--amber-rgb), 0.45);
+  background: rgba(var(--panel-rgb), 0.6);
+  font-size: 0.72rem;
+  font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--amber-text);
 }
 .about__mission {
@@ -2830,9 +2892,10 @@ html.is-lite .about__stage {
   grid-template-columns: 1fr;
   padding: 12vh var(--gutter) 4vh;
 }
-html.is-lite .about__nums { justify-self: start; order: -1; }
-html.is-lite .about__num { font-size: 46vw; }
-html.is-lite .about__label { text-align: left; }
+html.is-lite .about__badge { order: -1; width: min(80vw, 440px); }
+/* the spinning ring's corners would otherwise widen the page on phones */
+html.is-lite .about__stage { overflow-x: clip; }
+html.is-lite .about__num { font-size: min(42vw, 260px); }
 html.is-lite .work__stage,
 html.is-lite .ppage__stage {
   display: block;
@@ -2962,6 +3025,7 @@ html.is-lite .cta__stage {
   .tg__mtrack,
   .sbtn::before,
   .about__orbit,
+  .about__ring,
   .marquee__track,
   .hero__cue-line::after {
     animation: none;

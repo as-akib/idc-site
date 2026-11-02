@@ -89,7 +89,8 @@ export const services = [
 ]
 
 export const about = {
-  years: 17,
+  // idcbdtech.com shows "05 YEARS OF EXPERIENCE"
+  years: 5,
   statement: 'years of experience helping people for best solutions',
   missionEyebrow: 'Learn more about our Missions',
   missionTitle: 'We aim to become a trusted tech resource for professionals, learners, and businesses.',

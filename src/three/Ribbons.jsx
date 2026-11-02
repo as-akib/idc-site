@@ -9,7 +9,7 @@ import { paletteFor } from './palette'
 
 const LAST = STATIONS.length - 1
 // per-station brightness: quieter where the DOM carries dense text
-const DIM = [2, 1, 1.25, 1, 0.85, 1.25, 1.1, 1.05]
+const DIM = [2, 1, 0.75, 1, 0.85, 1.25, 1.1, 1.05]
 
 /** Flowing ribbons of liquid light. They reform per section as the camera travels. */
 export default function Ribbons({ count, lite, theme = 'dark' }) {

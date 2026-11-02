@@ -10,10 +10,10 @@ export default function Cursor() {
     if (!window.matchMedia('(pointer: fine)').matches) return
     document.documentElement.classList.add('has-cursor')
     gsap.set([dot.current, ring.current], { xPercent: -50, yPercent: -50, x: innerWidth / 2, y: innerHeight / 2 })
-    const dx = gsap.quickTo(dot.current, 'x', { duration: 0.12, ease: 'power3' })
-    const dy = gsap.quickTo(dot.current, 'y', { duration: 0.12, ease: 'power3' })
-    const rx = gsap.quickTo(ring.current, 'x', { duration: 0.5, ease: 'power3' })
-    const ry = gsap.quickTo(ring.current, 'y', { duration: 0.5, ease: 'power3' })
+    const dx = gsap.quickTo(dot.current, 'x', { duration: 0.05, ease: 'power3' })
+    const dy = gsap.quickTo(dot.current, 'y', { duration: 0.05, ease: 'power3' })
+    const rx = gsap.quickTo(ring.current, 'x', { duration: 0.2, ease: 'power3' })
+    const ry = gsap.quickTo(ring.current, 'y', { duration: 0.2, ease: 'power3' })
     let target = null // element the ring is wrapped around (magnetic mode)
     let mode = 'idle' // 'idle' | 'target' | 'label'
 
