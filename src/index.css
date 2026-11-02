@@ -665,7 +665,16 @@ html:not(.has-cursor) .cursor {
 }
 .fbtn--warm .fbtn__arrow {
   background: var(--amber-ink);
-  color: var(--amber-text);
+  color: var(--amber);
+  transition: background-color 0.45s var(--ease-out), color 0.45s var(--ease-out);
+}
+/* light theme: the hover fill is dark navy, so the label and arrow flip to light-on-dark */
+:root[data-theme='light'] .fbtn--warm:hover {
+  color: #fff;
+}
+:root[data-theme='light'] .fbtn--warm:hover .fbtn__arrow {
+  background: var(--amber);
+  color: var(--amber-ink);
 }
 .fbtn--sm {
   padding: 0.6rem 0.65rem 0.6rem 1.25rem;
@@ -2619,8 +2628,9 @@ html:not(.has-cursor) .cursor {
 }
 .tg__commitmark {
   position: absolute;
-  right: 1.6rem;
-  top: -1rem;
+  right: 1.4rem;
+  top: -0.8rem;
+  pointer-events: none;
   font-family: var(--display);
   font-weight: 700;
   font-size: 9rem;
@@ -2628,6 +2638,8 @@ html:not(.has-cursor) .cursor {
   color: rgba(var(--amber-rgb), 0.16);
 }
 .tg__commit h2 {
+  /* keep the heading clear of the decorative quote mark in the corner */
+  padding-right: clamp(4.5rem, 7vw, 6.5rem);
   font-family: var(--display);
   font-weight: 600;
   font-size: clamp(1.7rem, 2.6vw, 2.6rem);
