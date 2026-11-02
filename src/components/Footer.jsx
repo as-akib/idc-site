@@ -79,7 +79,6 @@ export default function Footer() {
         </div>
 
         <div className="footer__brandrow">
-          <img src={brand.logo} alt="IDC — Impressive Digital Communication" width="190" height="51" />
           <p>
             <IdcIcon size={22} /> {brand.tagline}
           </p>

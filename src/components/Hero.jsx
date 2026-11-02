@@ -47,7 +47,10 @@ export default function Hero({ ready }) {
       <div className="sticky hero__stage">
         <div className="hero__top">
           <p className="hero__kicker">
-            <IdcIcon size={22} /> Digital agency — Chattogram, Bangladesh
+            <span className="hero__kicker-icon" aria-hidden="true">
+              <IdcIcon size={22} />
+            </span>
+            Digital agency — Chattogram, Bangladesh
           </p>
           <RotatingBadge text={`${brand.tagline} • ${brand.tagline} • `} size={lite ? 110 : 148}>
             <IdcIcon size={lite ? 34 : 46} spin />

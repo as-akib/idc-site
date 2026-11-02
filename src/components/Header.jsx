@@ -6,13 +6,15 @@ import { lenis, onScene, scrollToId } from '../lib/scroll'
 import { FlowButton } from '../lib/ui'
 import { brand, contact } from '../data/content'
 
-// every header link scrolls to its home section; only "View All Projects" opens /projects
+// section links scroll to their home section; "Techno Guard" is a separate page (IDC's offline service)
 const links = [
   ['services', 'Services'],
   ['about', 'About'],
   ['work', 'Projects'],
+  ['/techno-guard', 'Techno Guard'],
   ['contact', 'Contact'],
 ]
+const isPage = (id) => id.startsWith('/')
 
 export default function Header({ ready }) {
   const [scrolled, setScrolled] = useState(false)
@@ -31,6 +33,7 @@ export default function Header({ ready }) {
   }, [open])
 
   const go = (id) => (e) => {
+    if (isPage(id)) return setOpen(false)
     e.preventDefault()
     const run = () => (pathname === '/' ? scrollToId(id) : navigate('/', { state: { to: id } }))
     if (!open) return run()
@@ -50,11 +53,17 @@ export default function Header({ ready }) {
         <img src={brand.logo} alt="IDC — Impressive Digital Communication" width="150" height="40" />
       </Link>
       <nav className="header__nav" aria-label="Primary">
-        {links.map(([id, label]) => (
-          <a key={id} href={`#${id}`} onClick={go(id)}>
-            <span data-text={label}>{label}</span>
-          </a>
-        ))}
+        {links.map(([id, label]) =>
+          isPage(id) ? (
+            <Link key={id} to={id} className={`header__page ${pathname === id ? 'is-current' : ''}`}>
+              <span data-text={label}>{label}</span>
+            </Link>
+          ) : (
+            <a key={id} href={`#${id}`} onClick={go(id)}>
+              <span data-text={label}>{label}</span>
+            </a>
+          )
+        )}
       </nav>
       <FlowButton warm href={`mailto:${contact.email}`} className="fbtn--sm header__quote">
         Request a quote
@@ -91,10 +100,17 @@ export default function Header({ ready }) {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.25 + i * 0.07, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <a href={`#${id}`} onClick={go(id)}>
-                      <em>{String(i + 1).padStart(2, '0')}</em>
-                      {label}
-                    </a>
+                    {isPage(id) ? (
+                      <Link to={id} onClick={go(id)}>
+                        <em>{String(i + 1).padStart(2, '0')}</em>
+                        {label}
+                      </Link>
+                    ) : (
+                      <a href={`#${id}`} onClick={go(id)}>
+                        <em>{String(i + 1).padStart(2, '0')}</em>
+                        {label}
+                      </a>
+                    )}
                   </motion.li>
                 ))}
               </ol>

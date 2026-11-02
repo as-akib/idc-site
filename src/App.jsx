@@ -8,6 +8,8 @@ import ScrollNav from './components/ScrollNav'
 import LightSweep, { wipe } from './components/LightSweep'
 import Home from './components/Home'
 import ProjectsPage from './components/ProjectsPage'
+import TechnoGuardPage from './components/TechnoGuardPage'
+import ScrollTop from './components/ScrollTop'
 import Footer from './components/Footer'
 
 const Experience = lazy(() => import('./three/Experience'))
@@ -20,7 +22,7 @@ export default function App() {
   )
 }
 
-const routeOf = (path) => (path.startsWith('/projects') ? 'projects' : 'home')
+const routeOf = (path) => (path.startsWith('/projects') ? 'projects' : path.startsWith('/techno-guard') ? 'techno' : 'home')
 
 function Shell() {
   const lite = useDetectLite()
@@ -89,9 +91,11 @@ function Shell() {
       <Routes location={shown}>
         <Route path="/" element={<Home ready={ready} />} />
         <Route path="/projects" element={<ProjectsPage ready={ready} canGoBack={canGoBack} />} />
+        <Route path="/techno-guard" element={<TechnoGuardPage ready={ready} canGoBack={canGoBack} />} />
         <Route path="*" element={<Home ready={ready} />} />
       </Routes>
       <Footer key={shown.pathname} />
+      <ScrollTop />
     </LiteContext.Provider>
   )
 }

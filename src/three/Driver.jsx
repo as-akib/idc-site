@@ -14,7 +14,8 @@ export default function Driver() {
   }, [])
   useFrame((_, dt) => {
     const d = Math.min(dt, 0.05)
-    const projects = scene.route === 'projects'
+    // every sub-page (projects, techno-guard) shares the drifting silk-field station
+    const projects = scene.route !== 'home'
     const target = projects ? PROJECTS_STATION + scene.progress * 0.5 : scene.u
     // a route change is a hard cut (hidden by the light sweep), not a fly-through
     if (projects !== (world.u >= PROJECTS_STATION - 0.01)) world.u = target
