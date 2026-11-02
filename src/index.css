@@ -427,30 +427,6 @@ html:not(.has-cursor) .cursor {
   filter: blur(22px);
   mix-blend-mode: screen;
 }
-.sweep__svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  mix-blend-mode: screen;
-}
-.sweep__path {
-  fill: none;
-  stroke: url(#sweepg);
-  stroke-linecap: round;
-  stroke-dasharray: 0.45 2;
-  stroke-dashoffset: 1.4;
-  vector-effect: non-scaling-stroke;
-  opacity: 0;
-}
-.sweep__path--glow {
-  stroke-width: 34px;
-  filter: blur(14px);
-}
-.sweep__path--core {
-  stroke-width: 3px;
-}
-
 /* ---------- header ---------- */
 .header {
   position: fixed;
